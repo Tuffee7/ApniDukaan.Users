@@ -17,7 +17,7 @@ namespace ApniDukaan.Core.RepositoryContracts
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<ApplicationUser?> GetUserByEmailAndPassword(string? email, string? password);
+        Task<ApplicationUser?> GetUserByEmail(string? email);
 
         /// <summary>
         /// Retrieves a user based on the provided user ID.
@@ -31,5 +31,11 @@ namespace ApniDukaan.Core.RepositoryContracts
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<ApplicationUser>?> GetAllUsers();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> UpdateUser(ApplicationUser user);
     }
 }

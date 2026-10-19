@@ -36,107 +36,28 @@ namespace ApniDukaan.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Password")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PersonName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("UserId");
 
                     b.ToTable("ApplicationUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("9194ab4e-f176-4e28-9bfb-e11d377b4489"),
-                            Email = "seed@example.com",
-                            Gender = "Male",
-                            Password = "seedpassword",
-                            PersonName = "Seed User"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0001"),
-                            Email = "john.doe@example.com",
-                            Gender = "Male",
-                            Password = "John@123",
-                            PersonName = "John Doe"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0002"),
-                            Email = "jane.smith@example.com",
-                            Gender = "Female",
-                            Password = "Jane@123",
-                            PersonName = "Jane Smith"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0003"),
-                            Email = "michael.brown@example.com",
-                            Gender = "Male",
-                            Password = "Mike@123",
-                            PersonName = "Michael Brown"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0004"),
-                            Email = "emily.davis@example.com",
-                            Gender = "Female",
-                            Password = "Emily@123",
-                            PersonName = "Emily Davis"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0005"),
-                            Email = "david.wilson@example.com",
-                            Gender = "Male",
-                            Password = "David@123",
-                            PersonName = "David Wilson"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0006"),
-                            Email = "olivia.taylor@example.com",
-                            Gender = "Female",
-                            Password = "Olivia@123",
-                            PersonName = "Olivia Taylor"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0007"),
-                            Email = "daniel.anderson@example.com",
-                            Gender = "Male",
-                            Password = "Daniel@123",
-                            PersonName = "Daniel Anderson"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0008"),
-                            Email = "sophia.martin@example.com",
-                            Gender = "Female",
-                            Password = "Sophia@123",
-                            PersonName = "Sophia Martin"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0009"),
-                            Email = "james.thomas@example.com",
-                            Gender = "Male",
-                            Password = "James@123",
-                            PersonName = "James Thomas"
-                        },
-                        new
-                        {
-                            UserId = new Guid("b6b7e2e0-1c43-4f89-8d1b-4d7d7b4a0010"),
-                            Email = "ava.jackson@example.com",
-                            Gender = "Female",
-                            Password = "Ava@123",
-                            PersonName = "Ava Jackson"
-                        });
                 });
 #pragma warning restore 612, 618
         }

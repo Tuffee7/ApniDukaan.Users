@@ -18,6 +18,10 @@ namespace ApniDukaan.Infrastructure.Repositories
 
         public async Task<ApplicationUser?> AddUser(ApplicationUser user)
         {
+            var userExists = await _dbContext.Users.AnyAsync(u => u.Email == user.Email);
+            if (userExists)
+                return null;
+
             // Generate new Guid for every new unique UserId
             user.UserId = Guid.NewGuid();
 
@@ -49,14 +53,14 @@ namespace ApniDukaan.Infrastructure.Repositories
             var result = await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
-            if (result != null)
-                return user;
-            else
+            if (result is null)
                 return null;
+            else
+                return user;
             #endregion
         }
 
-        public async Task<ApplicationUser?> GetUserByEmailAndPassword(string? email, string? password)
+        public async Task<ApplicationUser?> GetUserByEmail(string? email)
         {
             #region Retrieving Data using Raw SQL Query
             //string sqlQuery = "SELECT UserId, Email, PersonName, Gender FROM ApplicationUsers WHERE Email = @Email AND Password = @Password";
@@ -75,7 +79,7 @@ namespace ApniDukaan.Infrastructure.Repositories
 
             #region Retrieving data using Entity Framework LINQ
 
-            var users = await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email && user.Password == password);
+            var users = await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email /*&& user.PasswordHash == password*/);
 
             if (users != null)
                 return users;
@@ -87,12 +91,12 @@ namespace ApniDukaan.Infrastructure.Repositories
 
         public async Task<ApplicationUser?> GetUserByUserID(Guid? userID)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.UserId == userID);
+            var user = await _dbContext.Users.FindAsync(userID);
 
-            if (user != null)
-                return user;
-            else
+            if (user is null)
                 return null;
+            else
+                return user; 
         }
 
         public async Task<IEnumerable<ApplicationUser>?> GetAllUsers()
@@ -102,6 +106,17 @@ namespace ApniDukaan.Infrastructure.Repositories
                 return users;
             else
                 return null;
+        }
+
+        public async Task<bool> UpdateUser(ApplicationUser user)
+        {
+            var result = _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+
+            if (result is null)
+                return false;
+            else
+                return true;
         }
     }
 }

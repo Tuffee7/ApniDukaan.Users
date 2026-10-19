@@ -1,6 +1,7 @@
 ﻿using ApniDukaan.Core.RequestDTO;
 using ApniDukaan.Core.ResponseDTO;
 using ApniDukaan.Core.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LoginRequest = ApniDukaan.Core.RequestDTO.LoginRequest;
 
@@ -20,7 +21,7 @@ namespace ApniDukaan.API.Controller
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest registerRequest)
         {
-            if (registerRequest == null)
+            if (registerRequest is null)
             {
                 return BadRequest("Invalid registration request.");
             }
@@ -29,9 +30,9 @@ namespace ApniDukaan.API.Controller
 
             // Call the UserService to register the user
             AuthenticationResponse? authResponse = await _userService.Register(registerRequest);
-            if (authResponse == null || !(authResponse.IsAuthenticated ?? false))
+            if (authResponse is null)
             {
-                return Unauthorized();
+                return BadRequest("User Already Exists or Registration Failed.");
             }
 
             return Ok(authResponse);
@@ -40,7 +41,9 @@ namespace ApniDukaan.API.Controller
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
-            if (loginRequest == null)
+            if (loginRequest is null 
+                || String.IsNullOrEmpty(loginRequest.Email) 
+                || String.IsNullOrEmpty(loginRequest.Password))
             {
                 return BadRequest("Invalid login request.");
             }
@@ -49,13 +52,44 @@ namespace ApniDukaan.API.Controller
 
             // Call the login service to authenticate the user
             AuthenticationResponse? authResponse = await _userService.Login(loginRequest);
-            if (authResponse == null || !(authResponse.IsAuthenticated ?? false))
+            if (authResponse is null)
             {
-                return Unauthorized();
+                return BadRequest("Invalid email or password.");
             }
 
             return Ok(authResponse);
         }
 
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenRequestDto refreshTokenRequest)
+        {
+            if (refreshTokenRequest is null || String.IsNullOrEmpty(refreshTokenRequest.RefreshToken))
+            {
+                return BadRequest("Invalid refresh token request.");
+            }
+
+            // Call the refresh token service
+            AuthenticationResponse? authResponse = await _userService.RefreshToken(refreshTokenRequest);
+            if (authResponse is null)
+            {
+                return BadRequest("Invalid or expired refresh token.");
+            }
+
+            return Ok(authResponse);
+        }
+
+        [Authorize]
+        [HttpGet("TestAuthentication")]
+        public async Task<IActionResult> TestAuthentication()
+        {
+            return Ok("Authentication is working correctly.");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("AdminAccessOnly")]
+        public async Task<IActionResult> AdminAccessOnly()
+        {
+            return Ok("Admin logged in. Authorization is working correctly.");
+        }
     }
 }

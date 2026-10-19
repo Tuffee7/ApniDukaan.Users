@@ -6,7 +6,7 @@
         public string? Email { get; set; }
         public string? PersonName { get; set; }
         public string? Gender { get; set; }
-        public string? Token { get; set; }
-        public bool? IsAuthenticated { get; set; }
+        public string? AccessToken { get; set; }
+        public string? RefreshToken { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace ApniDukaan.Core.Mappers
 {
-    public class ApplicationUserMappingProfile : Profile
+    public class ApplicationUserToAuthenticationResponseMappingProfile : Profile
     {
-        public ApplicationUserMappingProfile()
+        public ApplicationUserToAuthenticationResponseMappingProfile()
         {
             // Mapping source <ApplicationUser> with destination <AuthenticationResponse>. Ignoring the fields which are not in source but present in destination.
             CreateMap<ApplicationUser, AuthenticationResponse>()
@@ -14,8 +14,8 @@ namespace ApniDukaan.Core.Mappers
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-                .ForMember(dest => dest.IsAuthenticated, opt => opt.Ignore())
-                .ForMember(dest => dest.Token, opt => opt.Ignore());
+                .ForMember(dest => dest.AccessToken, opt => opt.Ignore())
+                .ForMember(dest => dest.RefreshToken, opt => opt.Ignore());
         }
     }
 }

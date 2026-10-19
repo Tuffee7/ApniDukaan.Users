@@ -31,5 +31,15 @@ namespace ApniDukaan.Core.ServiceContracts
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<UserDTO>?> GetAllUsers();
+
+        /// <summary>
+        /// Asynchronously refreshes the authentication token using the specified refresh token request.
+        /// </summary>
+        /// <remarks>Performs server-side validation of the refresh token; returns null for invalid or
+        /// expired tokens.</remarks>
+        /// <param name="refreshTokenRequest">The refresh token request containing the refresh token and any required metadata.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result is an AuthenticationResponse containing
+        /// the new access and refresh tokens, or null if the refresh fails.</returns>
+        Task<AuthenticationResponse?> RefreshToken(RefreshTokenRequestDto refreshTokenRequest);
     }
 }

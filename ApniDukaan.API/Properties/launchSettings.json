@@ -6,10 +6,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "MSSQL_HOST": "localhost",
-        "MSSQL_PORT": "1433",
+        "MSSQL_PORT": "1434", // Container port for SQL Server. Not using default 1433 to avoid conflicts with local SQL Server instances.
         "MSSQL_DATABASE": "ApniDukaanApplicationUsers",
         "MSSQL_USER": "sa",
-        "MSSQL_PASSWORD": "admin"
+        "MSSQL_PASSWORD": "Tuffee@27897"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5153",

@@ -2,11 +2,6 @@
 
 namespace ApniDukaan.Core.RequestDTO
 {
-    //public record RegisterRequest(
-    //    string? Email,
-    //    string? Password,
-    //    string? PersonName);
-
     public class RegisterRequest
     {
         public string? Email { get; set; }
